@@ -5,6 +5,7 @@ import { createWalletClient, createPublicClient, custom, http } from "viem";
 import { celoAlfajores } from "viem/chains";
 import { stakeTokenAddress } from "@/utils/addresses/stakeContractAddress";
 import { stakeABI } from "@/utils/abis/stakeTokenABI";
+import { stakingContractAddress } from "@/utils/addresses/stakingContractAddress";
 
 const TokenApproval = () => {
   const [transactionStatus, setTransactionStatus] = useState("");
@@ -36,7 +37,7 @@ const TokenApproval = () => {
           address: stakeTokenAddress,
           abi: stakeABI,
           functionName: "approve",
-          args: [stakeTokenAddress, amountToSend],
+          args: [stakingContractAddress, amountToSend],
         });
 
         setTransactionStatus("Transaction is pending...");

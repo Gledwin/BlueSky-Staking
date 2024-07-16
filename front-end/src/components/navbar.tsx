@@ -10,7 +10,7 @@ import {
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useConnect } from "wagmi";
-import { injected } from "wagmi/connectors";
+import { injected, metaMask } from "wagmi/connectors";
 
 
 
@@ -28,7 +28,7 @@ const BlueSkyNavbar: FC<Props> = ({ children }) => {
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMiniPay) {
         setIsMiniPay(true);
-        connect({ connector: injected() });
+        connect({ connector: injected({target: "metaMask"}) });
     }
 }, [connect]);
 

@@ -28,6 +28,8 @@ const ClaimRewards = () => {
       // Get the user's address from the wallet client
       const [userAddress] = await privateClient.getAddresses();
 
+  
+
       // Call the getReward function on the staking contract
       const claimTxHash = await privateClient.writeContract({
         account: userAddress,

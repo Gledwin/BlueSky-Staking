@@ -34,18 +34,6 @@ const Staking = () => {
 
         const [address] = await privateClient.getAddresses();
 
-        // Approve the staking contract to spend the user's tokens
-        const approveTxHash = await privateClient.writeContract({
-          account: address,
-          address: stakeTokenAddress,
-          abi: stakeABI,
-          functionName: "approve",
-          args: [stakingContractAddress, amountToSend],
-        });
-
-        setTransactionStatus("Approval transaction is pending...");
-        await publicClient.waitForTransactionReceipt({ hash: approveTxHash });
-
         // Call the stake function
         const stakeTxHash = await privateClient.writeContract({
           account: address,
