@@ -14,7 +14,7 @@ const EarnedRewards = () => {
         const stakingData = await getStakingData(address as `0x${string}`);
         if (stakingData) {
           // Ensure the earned rewards are converted to a number and formatted to 4 decimal places
-          const formattedRewards = Number(stakingData.earnedRewards).toFixed(4);
+          const formattedRewards = Number(stakingData.earnedRewards).toFixed(2);
           setEarnedRewards(formattedRewards);
         }
       } catch (error) {
