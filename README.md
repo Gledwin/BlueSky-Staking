@@ -4,8 +4,8 @@ Project description
 my staking project allows users to stake a specific token (stakingToken) and earn rewards in another token (rewardToken) based on their staked amount and the time they have staked. 
 >Scenario
   - A user stakes a certain amount of the staking token by calling the stake function.
-  -The user accumulates rewards over time based on the REWARD_RATE.
-  -The user can withdraw their staked tokens at any time by calling the withdraw function.
-  -The user can claim their rewards by calling the getReward function.
+  - The user accumulates rewards over time based on the REWARD_RATE.
+  - The user can withdraw their staked tokens at any time by calling the withdraw function.
+  - The user can claim their rewards by calling the getReward function.
 
 
