@@ -21,6 +21,7 @@ const Staking = () => {
         return;
       }
       const amountToSend = parseUnits(amount, 18).toString();
+
       try {
         const privateClient = createWalletClient({
           chain: celoAlfajores,
@@ -33,6 +34,19 @@ const Staking = () => {
         });
 
         const [address] = await privateClient.getAddresses();
+
+        // Fetch the approved amount
+        const approvedAmount = await publicClient.readContract({
+          address: stakeTokenAddress,
+          abi: stakeABI,
+          functionName: "allowance",
+          args: [address, stakingContractAddress],
+        }) as bigint;
+
+        if (BigInt(amountToSend) > approvedAmount) {
+          console.error("Staking amount must be less than or equal to the approved amount");
+          return;
+        }
 
         // Call the stake function
         const stakeTxHash = await privateClient.writeContract({
@@ -64,7 +78,6 @@ const Staking = () => {
     <div>
       {transactionStatus && <div>{transactionStatus}</div>}
       <form onSubmit={handleStake}>
-
         <label>Stake Tokens: </label>
         <input ref={stakeAmountRef} type="text" style={{ color: "black" }}/>
         <br/>
