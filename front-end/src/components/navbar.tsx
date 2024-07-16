@@ -30,10 +30,10 @@ const BlueSkyNavbar: FC<Props> = ({ children }) => {
       window.ethereum &&
       (window.ethereum.isMiniPay || window.ethereum.isMinipay)
     ) {
-      setIsMiniPay(true);
+      setIsMiniPay(false);
       connect({ connector: injected({ target: "metaMask" }) });
     }
-  }, []);
+  }, [connect]);
 
   return (
     <>
