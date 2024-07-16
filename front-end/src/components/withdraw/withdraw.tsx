@@ -65,6 +65,8 @@ const Withdraw = () => {
       <form onSubmit={handleWithdraw}>
         <label>Withdraw Tokens: </label>
         <input ref={withdrawAmountRef} type="text" />
+        <br/>
+        <br/>
         <Button type="submit">Withdraw</Button>
       </form>
     </div>

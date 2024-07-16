@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 
 const StakedAmount = () => {
   const { address } = useAccount();
-  const [stakedAmount, setStakedAmount] = useState("0");
+  const [stakedAmount, setStakedAmount] = useState("0.00");
 
   useEffect(() => {
     const fetchStakedBalance = async () => {
@@ -13,7 +13,8 @@ const StakedAmount = () => {
       try {
         const stakingData = await getStakingData(address as `0x${string}`);
         if (stakingData) {
-          setStakedAmount(stakingData.stakedBalance.toString());
+          const formattedAmount = (Number(stakingData.stakedBalance) / 1e18).toFixed(2);
+          setStakedAmount(formattedAmount);
         }
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -25,9 +26,9 @@ const StakedAmount = () => {
 
   return (
     <>
-      <p>Staked amount: {stakedAmount}</p>
+      <div>Staked amount: {stakedAmount} stk </div>
     </>
   );
 };
 
-export default StakedAmount
+export default StakedAmount;

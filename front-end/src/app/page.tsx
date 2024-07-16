@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  
-  Text,
-  Box,
-  Flex,
-  useToast,
-  
-  Badge,
-} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { useAccount, useConnect } from "wagmi";
 import BecomeAUser from "./become-a-user/page";
 import DisplayPanel from "@/components/DisplayPannel/DisplayPannel";
@@ -17,34 +9,34 @@ import StakeAmount from "@/components/navigation/stakeAmount";
 import WithdrawAmount from "@/components/withdraw/withdraw";
 import Reward from "@/components/claimReward.tsx/claimReward";
 import { checkIfUserExists } from "@/services/checkIfUserExists";
-import { bookStoreUser } from '@/entities/bookStoreUser'
+import { bookStoreUser } from "@/entities/bookStoreUser";
 import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
-import { useEffect, useState } from "react";
 import { injected } from "wagmi/connectors";
-
 
 export default function Home() {
   const [userExists, setUserExists] = useState(false);
-  const toast = useToast();
-
-  const [userAddress, setUserAddress] = useState("");
-
   const [isLoading, setIsLoading] = useState(true);
-
   const { connect } = useConnect();
-
   const { address, isConnected } = useAccount();
-
   const [bookStoreUser, setBookStoreUser] = useState<bookStoreUser | null>(null);
+  const [userAddress, setUserAddress] = useState("");
+    const [isMounted, setIsMounted] = useState(false);
 
-
-  
-
-
-
-
-   
     useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (isConnected && address) {
+            setUserAddress(address);
+        }
+    }, [address, isConnected]);
+
+ 
+
+
+
+  useEffect(() => {
     const checkIfUserExistsAndSet = async () => {
       if (address) {
         const doesUserExist = await checkIfUserExists(address);
@@ -65,125 +57,95 @@ export default function Home() {
 
     checkIfUserExistsAndSet();
     fetchUserByWalletAddress();
-  }, [
-    address,
-    userExists,
-    bookStoreUser,
+  }, [address, userExists, bookStoreUser]);
 
-  ]);
+  const attemptConnection = async () => {
+    if (window.ethereum && window.ethereum.isMiniPay) {
+      connect({ connector: injected({ target: "metaMask" }) });
+    }
+  };
 
-    const attemptConnection = async () => {
-  if (window.ethereum && window.ethereum.isMiniPay) {
-   connect({ connector: injected({ target: "metaMask" }) });
-  }
- };
-
- 
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  if (!mounted) return <></>
-
+  if (!mounted) return <></>;
 
   if (!isConnected) {
     return (
-      <main className="flex h-screen items-center justify-center">
-        <Box bgColor={"#FFD62C"}>
-          <Flex className="flex flex-col items-center justify-center" h={8}>
-            <Text
-              ml={4}
-              textColor={"black"}
-              noOfLines={1}
-              paddingRight={4}
-              alignContent={"center"}
-              alignItems={"center"}
-             onClick={attemptConnection}
+      <main className="flex h-screen items-center justify-center bg-black">
+        <div className="bg-black p-4">
+          <div className="flex flex-col items-center justify-center h-8">
+            <p
+              className="ml-4 text-white pr-4 text-center cursor-pointer"
+              onClick={attemptConnection}
             >
-              {" "}
-              Connected: <Badge>{isConnected.toString()}</Badge>
-            </Text>
-          </Flex>
-        </Box>
+              Connected: <span className="badge">{isConnected.toString()}</span>
+            </p>
+          </div>
+        </div>
       </main>
     );
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <main className="flex h-screen items-center justify-center">
-  //       <Flex className="flex flex-col items-center" >
-  //         <Text
-  //           textColor={"black"}
-  //           noOfLines={1}
-  //           paddingRight={4}
-  //           alignContent={"center"}
-  //           alignItems={"center"}
-  //         >
-  //           Connected: {isConnected.toString()}
-  //         </Text>
-  //       </Flex>
-  //       <Spinner />
-  //     </main>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <main className="flex h-screen items-center justify-center bg-black">
+        <div className="flex flex-col items-center">
+          <p className="text-white pr-4 text-center">
+            Connected: {isConnected.toString()}
+          </p>
+          <div className="spinner" />
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <>
-      <Flex
-        className="flex flex-col items-center justify-center"
-        bgColor={"#FFD62C"}
-        h={8}
-      >
-        <Text
-          textColor={"black"}
-          noOfLines={1}
-          paddingRight={4}
-          alignContent={"center"}
-          alignItems={"center"}
-        >
-          Connected: <Badge>{isConnected.toString()}</Badge>
-        </Text>
-      </Flex>
-      {userExists ? (
-      
-      <div className="p-10 bg-blue-100">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-700">
-        BlueSky Staking-Rewards
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-yellow-200 p-4 rounded-md shadow-md">
-          <DisplayPanel />
+    <div className="bg-black text-white min-h-screen p-4">
+      <div className="space-y-8">
+      <div className="flex flex-col items-center justify-center bg-gray-900 p-4 w-full rounded-md shadow-md">
+          <p>
+          Your address: {userAddress}
+
+          </p>
         </div>
-        <div className="space-y-4">
-          <div className="bg-blue-200 p-4 rounded-md shadow-sm">
-            <StakeAmount />
-          </div>
-          <div className="border-t border-gray-400"></div>
-          <div className="bg-blue-200 p-4 rounded-md shadow-sm">
-            <WithdrawAmount />
-          </div>
-          <div className="border-t border-gray-400"></div>
-          <div className="bg-blue-200 p-4 rounded-md shadow-sm">
-            <TokenApproval />
-          </div>
-          <div className="border-t border-gray-400"></div>
-          <div className="bg-blue-200 p-4 rounded-md shadow-sm">
-            <Reward />
-          </div>
+        <div className="flex flex-col items-center justify-center bg-gray-900 p-4 w-full rounded-md shadow-md">
+          <p>
+            Connected: <span className="badge">{isConnected.toString()}</span>
+          </p>
         </div>
+        {userExists ? (
+          <>
+            <h1 className="text-4xl text-blue-500">BlueSky Staking-Rewards</h1>
+            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
+              <div className="bg-blue-900 p-4 rounded-md shadow-md flex-1">
+                <DisplayPanel />
+              </div>
+              <div className="flex-1 space-y-4">
+                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                  <StakeAmount />
+                </div>
+                <hr className="border-gray-400" />
+                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                  <WithdrawAmount />
+                </div>
+                <hr className="border-gray-400" />
+                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                  <TokenApproval />
+                </div>
+                <hr className="border-gray-400" />
+                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                  <Reward />
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <BecomeAUser />
+        )}
       </div>
     </div>
-  
-                
-          
-
-         
-                   
-      ) : (
-        <BecomeAUser />
-      )}
-    </>
   );
 }

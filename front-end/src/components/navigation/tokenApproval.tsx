@@ -63,6 +63,8 @@ const TokenApproval = () => {
       <form onSubmit={approveToken}>
         <label>Token Approve: </label>
         <input ref={approvedTokenRef} type="text" />
+        <br/>
+        <br/>
         <Button type="submit">Token Approve</Button>
       </form>
     </div>

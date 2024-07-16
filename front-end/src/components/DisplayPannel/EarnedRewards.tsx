@@ -14,8 +14,8 @@ const EarnedRewards = () => {
         const stakingData = await getStakingData(address as `0x${string}`);
         if (stakingData) {
           // Ensure the earned rewards are converted to a number and formatted to 4 decimal places
-          const formattedRewards = Number(stakingData.earnedRewards).toFixed(2);
-          setEarnedRewards(formattedRewards);
+          const formattedAmount = (Number(stakingData.earnedRewards) / 1e18).toFixed(2);
+          setEarnedRewards(formattedAmount);
         }
       } catch (error) {
         console.log("Error fetching data:", error);
@@ -25,9 +25,11 @@ const EarnedRewards = () => {
     fetchStakedBalance();
   }, [address]);
 
+
+
   return (
     <>
-      <p>Earned rewards: {earnedRewards}</p>
+      <p>Earned rewards: {earnedRewards} tokens</p>
     </>
   );
 }

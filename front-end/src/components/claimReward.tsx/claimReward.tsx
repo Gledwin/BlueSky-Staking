@@ -7,15 +7,11 @@ import { stakingABI } from "@/utils/abis/stakingContractABI";
 import { useAccount } from "wagmi";
 
 const ClaimRewards = () => {
-  const { address } = useAccount();
   const [transactionStatus, setTransactionStatus] = useState("");
+  const { address } = useAccount();
 
-  const getRewards = async () => {
-    if (!address) {
-      console.error("No address found");
-      return;
-    }
-
+  const handleClaimRewards = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const privateClient = createWalletClient({
         chain: celoAlfajores,
@@ -27,7 +23,9 @@ const ClaimRewards = () => {
         transport: custom(window.ethereum),
       });
 
-      // Call the claim function
+      const [address] = await privateClient.getAddresses();
+
+      // Call the getReward function
       const claimTxHash = await privateClient.writeContract({
         account: address,
         address: stakingContractAddress,
@@ -36,27 +34,32 @@ const ClaimRewards = () => {
         args: [],
       });
 
-      setTransactionStatus("Claim transaction is pending...");
+      setTransactionStatus("Claim reward transaction is pending...");
       const receipt = await publicClient.waitForTransactionReceipt({ hash: claimTxHash });
 
       if (receipt.status === "success") {
-        setTransactionStatus("Claim transaction is successful");
+        setTransactionStatus("Claim reward transaction is successful");
         setTimeout(() => {
           window.location.reload();
         }, 5000);
       } else {
-        setTransactionStatus("Claim transaction failed");
+        setTransactionStatus("Claim reward transaction failed");
       }
     } catch (error) {
-      console.error("Claim failed", error);
-      setTransactionStatus("Claim transaction failed");
+      console.error("Claim reward failed", error);
+      setTransactionStatus("Claim reward failed, please try again");
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
     }
   };
 
   return (
     <div>
       {transactionStatus && <div>{transactionStatus}</div>}
-      <Button onClick={getRewards}>Claim Rewards</Button>
+      <form onSubmit={handleClaimRewards}>
+        <Button type="submit">Claim rewards</Button>
+      </form>
     </div>
   );
 };

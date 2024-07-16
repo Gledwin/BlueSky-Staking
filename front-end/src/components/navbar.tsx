@@ -26,14 +26,11 @@ const BlueSkyNavbar: FC<Props> = ({ children }) => {
   const [isMiniPay, setIsMiniPay] = useState(false);
 
   useEffect(() => {
-    if (
-      window.ethereum &&
-      (window.ethereum.isMiniPay || window.ethereum.isMinipay)
-    ) {
-      setIsMiniPay(false);
-      connect({ connector: injected({ target: "metaMask" }) });
+    if (window.ethereum && window.ethereum.isMiniPay) {
+        setIsMiniPay(true);
+        connect({ connector: injected({ target: "metaMask" }) });
     }
-  }, []);
+}, []);
 
   return (
     <>

@@ -19,6 +19,8 @@ const RewardRate = () =>{
             const stakingData = await getStakingData(address as `0x${string}`);
             if (stakingData) {
               setRewardRate(stakingData.rewardRate.toString());
+              const formattedAmount = (Number(stakingData.rewardRate) / 1e18).toFixed(2);
+              setRewardRate(formattedAmount);
 
              
         }
@@ -35,7 +37,7 @@ const RewardRate = () =>{
       
       return (
         <>
-          <p>Reward rate: {rewardRate}</p>
+          <p>Reward rate: {rewardRate} token/sec</p>
         </>
       );
     };
