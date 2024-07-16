@@ -64,7 +64,7 @@ const Withdraw = () => {
       {transactionStatus && <div>{transactionStatus}</div>}
       <form onSubmit={handleWithdraw}>
         <label>Withdraw Tokens: </label>
-        <input ref={withdrawAmountRef} type="text" />
+        <input ref={withdrawAmountRef} type="text"style={{ color: "black" }} />
         <br/>
         <br/>
         <Button type="submit">Withdraw</Button>

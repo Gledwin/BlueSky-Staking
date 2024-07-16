@@ -5,6 +5,8 @@ import { celoAlfajores } from "viem/chains";
 import { stakingContractAddress } from "@/utils/addresses/stakingContractAddress";
 import { stakingABI } from "@/utils/abis/stakingContractABI";
 import { useAccount } from "wagmi";
+import { rewardTokenAddress } from "@/utils/addresses/rewardContract";
+import { rewardTokenABI } from "@/utils/abis/rewardTokenABI";
 
 const ClaimRewards = () => {
   const [transactionStatus, setTransactionStatus] = useState("");
@@ -23,11 +25,12 @@ const ClaimRewards = () => {
         transport: custom(window.ethereum),
       });
 
-      const [address] = await privateClient.getAddresses();
+      // Get the user's address from the wallet client
+      const [userAddress] = await privateClient.getAddresses();
 
-      // Call the getReward function
+      // Call the getReward function on the staking contract
       const claimTxHash = await privateClient.writeContract({
-        account: address,
+        account: userAddress,
         address: stakingContractAddress,
         abi: stakingABI,
         functionName: "getReward",

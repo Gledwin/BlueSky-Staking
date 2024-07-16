@@ -62,7 +62,7 @@ const TokenApproval = () => {
       {transactionStatus && <div>{transactionStatus}</div>}
       <form onSubmit={approveToken}>
         <label>Token Approve: </label>
-        <input ref={approvedTokenRef} type="text" />
+        <input ref={approvedTokenRef} type="text" style={{ color: "black" }}/>
         <br/>
         <br/>
         <Button type="submit">Token Approve</Button>

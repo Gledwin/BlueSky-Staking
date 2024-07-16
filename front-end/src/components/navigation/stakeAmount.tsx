@@ -78,7 +78,7 @@ const Staking = () => {
       <form onSubmit={handleStake}>
 
         <label>Stake Tokens: </label>
-        <input ref={stakeAmountRef} type="text" />
+        <input ref={stakeAmountRef} type="text" style={{ color: "black" }}/>
         <br/>
         <br/>
         <Button type="submit">Stake</Button>
