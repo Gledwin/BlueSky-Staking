@@ -20,6 +20,8 @@ import { checkIfUserExists } from "@/services/checkIfUserExists";
 import { bookStoreUser } from '@/entities/bookStoreUser'
 import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
 import { useEffect, useState } from "react";
+import { injected } from "wagmi/connectors";
+
 
 export default function Home() {
   const [userExists, setUserExists] = useState(false);
@@ -70,6 +72,12 @@ export default function Home() {
 
   ]);
 
+    const attemptConnection = async () => {
+  if (window.ethereum && window.ethereum.isMiniPay) {
+   connect({ connector: injected({ target: "metaMask" }) });
+  }
+ };
+
  
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
@@ -91,7 +99,7 @@ export default function Home() {
               paddingRight={4}
               alignContent={"center"}
               alignItems={"center"}
-              // onClick={attemptConnection}
+             onClick={attemptConnection}
             >
               {" "}
               Connected: <Badge>{isConnected.toString()}</Badge>
