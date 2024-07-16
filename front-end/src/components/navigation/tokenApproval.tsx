@@ -37,8 +37,11 @@ const TokenApproval = () => {
           address: stakeTokenAddress,
           abi: stakeABI,
           functionName: "approve",
-          args: [stakingContractAddress, amountToSend],
+          args: [stakeTokenAddress, amountToSend],
         });
+
+
+
 
         setTransactionStatus("Transaction is pending...");
         const receipt = await publicClient.waitForTransactionReceipt({ hash: transactionHash });
