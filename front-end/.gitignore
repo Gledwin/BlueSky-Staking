@@ -35,8 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Firebase debug
-firebase-debug.log
+
 
 # Package lock
 package-lock.json
@@ -44,5 +43,3 @@ package-lock.json
 # Env
 .env
 
-#Firebase
-/.firebase/
