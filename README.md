@@ -34,4 +34,3 @@ https://alfajores.celoscan.io/address/0x0ec77b9315b581a38cd0d6b15169ba28b11683a0
 demo link:
 
 https://blue-sky-staking.vercel.app/
-
