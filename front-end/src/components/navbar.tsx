@@ -30,7 +30,7 @@ const BlueSkyNavbar: FC<Props> = ({ children }) => {
         setIsMiniPay(true);
         connect({ connector: injected({ target: "metaMask" }) });
     }
-}, []);
+}, [connect]);
 
   return (
     <>
