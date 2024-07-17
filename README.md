@@ -19,4 +19,6 @@ Ehethreum toolings I used:
  - CSS Tailwind, Chakra UI
 
 
-https://blue-sky-staking.vercel.app/
+link demo - https://blue-sky-staking.vercel.app/
+video - 
+
