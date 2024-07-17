@@ -26,7 +26,7 @@ const StakedAmount = () => {
 
   return (
     <>
-      <div>Staked amount: {stakedAmount} stk </div>
+      <div>Staked amount: {stakedAmount}</div>
     </>
   );
 };

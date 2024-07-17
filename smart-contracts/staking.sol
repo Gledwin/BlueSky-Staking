@@ -85,7 +85,6 @@ contract Staking  {
     }
 }
 
-
-//reward - 0xc740b0c897b668b664e1c7de9c6559c58badb607
-//stake -  0x5053b19741dade3a67dd7b0e3c3bb9b450aaf95a
-//staking - 0x2dfbc83cb074fa6743a5d0f04ea6c3ff49a89006
+//0x6af73f936f399745acd9c2feed13e773c6e51bd3 stake
+// 0xf63419017e7e28e6baf65838a63c34d837e72741 reward
+// staking- 0x38c7e0de4af28ff3ca7d5d2f9ea7f203b5778c12
