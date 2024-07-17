@@ -30,7 +30,7 @@ Smart contract addresses
 https://alfajores.celoscan.io/address/0xc740b0c897b668b664e1c7de9c6559c58badb607
 https://alfajores.celoscan.io/address/0x5053b19741dade3a67dd7b0e3c3bb9b450aaf95a
 https://alfajores.celoscan.io/address/0x0ec77b9315b581a38cd0d6b15169ba28b11683a0
-
+https://alfajores.celoscan.io/address/0x27053a67e28245950cacc28331ff3f20a5c0fa06
 demo link:
 
 https://blue-sky-staking.vercel.app/
