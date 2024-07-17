@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Button } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react";
 import { parseUnits } from "viem";
 import { createWalletClient, createPublicClient, custom } from "viem";
 import { celoAlfajores } from "viem/chains";
@@ -11,6 +11,7 @@ import { stakingABI } from "@/utils/abis/stakingContractABI";
 const Staking = () => {
   const [transactionStatus, setTransactionStatus] = useState("");
   const stakeAmountRef = useRef<HTMLInputElement>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleStake = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,6 +59,7 @@ const Staking = () => {
         });
 
         setTransactionStatus("Staking transaction is pending...");
+        onOpen();
         const receipt = await publicClient.waitForTransactionReceipt({ hash: stakeTxHash });
 
         if (receipt.status === "success") {
@@ -70,21 +72,45 @@ const Staking = () => {
         }
       } catch (error) {
         console.error("Staking failed", error);
+        setTransactionStatus("Staking failed");
+        onOpen();
       }
     }
   };
 
   return (
-    <div>
-      {transactionStatus && <div>{transactionStatus}</div>}
+    <Box p={4} maxW="md" mx="auto" mt={6} borderWidth={1} borderRadius="lg">
       <form onSubmit={handleStake}>
-        <label>Stake Tokens: </label>
-        <input ref={stakeAmountRef} type="text" style={{ color: "black" }}/>
-        <br/>
-        <br/>
-        <Button type="submit">Stake</Button>
+        <FormControl id="stake-amount">
+          <FormLabel>Stake Tokens</FormLabel>
+          <Input
+            ref={stakeAmountRef}
+            type="text"
+            color="black"
+            bg="yellow.200"
+            _placeholder={{ color: 'gray.500' }}
+          />
+        </FormControl>
+        <Button mt={4} type="submit" colorScheme="teal">Stake</Button>
       </form>
-    </div>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Transaction Status</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>{transactionStatus}</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
 };
 

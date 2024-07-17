@@ -6,7 +6,7 @@ import {ERC20} from "stakingERC20.sol";
 
 
 contract RewardToken is ERC20{
-    constructor(uint256 initialSupply) ERC20("RewardToken", "cUSD"){
+    constructor(uint256 initialSupply) ERC20("RewardToken", "STK"){
         _mint(msg.sender, initialSupply*10**18);
     }
   

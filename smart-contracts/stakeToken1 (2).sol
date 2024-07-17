@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import {ERC20} from "stakingERC20.sol";
 
 contract StakeToken is ERC20{
-    constructor(uint256 initialSupply) ERC20("StakeToken", "stk"){
+    constructor(uint256 initialSupply) ERC20("StakeToken", "STK"){
         _mint(msg.sender, initialSupply*10**18);
     }
   

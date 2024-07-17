@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import { Button } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react";
 import { parseUnits } from "viem";
-import { createWalletClient, createPublicClient, custom, http } from "viem";
+import { createWalletClient, createPublicClient, custom } from "viem";
 import { celoAlfajores } from "viem/chains";
 import { stakeTokenAddress } from "@/utils/addresses/stakeContractAddress";
 import { stakeABI } from "@/utils/abis/stakeTokenABI";
@@ -10,6 +10,7 @@ import { stakingContractAddress } from "@/utils/addresses/stakingContractAddress
 const TokenApproval = () => {
   const [transactionStatus, setTransactionStatus] = useState("");
   const approvedTokenRef = useRef<HTMLInputElement>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const approveToken = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,13 +38,11 @@ const TokenApproval = () => {
           address: stakeTokenAddress,
           abi: stakeABI,
           functionName: "approve",
-          args: [stakeTokenAddress, amountToSend],
+          args: [stakingContractAddress, amountToSend],
         });
 
-
-
-
         setTransactionStatus("Transaction is pending...");
+        onOpen();
         const receipt = await publicClient.waitForTransactionReceipt({ hash: transactionHash });
 
         if (receipt.status === "success") {
@@ -57,21 +56,45 @@ const TokenApproval = () => {
         }
       } catch (error) {
         console.error("Token approval failed", error);
+        setTransactionStatus("Token approval failed");
+        onOpen();
       }
     }
   };
 
   return (
-    <div>
-      {transactionStatus && <div>{transactionStatus}</div>}
+    <Box p={4} maxW="md" mx="auto" mt={6} borderWidth={1} borderRadius="lg">
       <form onSubmit={approveToken}>
-        <label>Token Approve: </label>
-        <input ref={approvedTokenRef} type="text" style={{ color: "black" }}/>
-        <br/>
-        <br/>
-        <Button type="submit">Token Approve</Button>
+        <FormControl id="approve-amount">
+          <FormLabel>Token Approve</FormLabel>
+          <Input
+            ref={approvedTokenRef}
+            type="text"
+            color="black"
+            bg="yellow.200"
+            _placeholder={{ color: 'gray.500' }}
+          />
+        </FormControl>
+        <Button mt={4} type="submit" colorScheme="teal">Token Approve</Button>
       </form>
-    </div>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Transaction Status</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>{transactionStatus}</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
 };
 

@@ -20,21 +20,17 @@ export default function Home() {
   const { address, isConnected } = useAccount();
   const [bookStoreUser, setBookStoreUser] = useState<bookStoreUser | null>(null);
   const [userAddress, setUserAddress] = useState("");
-    const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-    useEffect(() => {
-        if (isConnected && address) {
-            setUserAddress(address);
-        }
-    }, [address, isConnected]);
-
- 
-
-
+  useEffect(() => {
+    if (isConnected && address) {
+      setUserAddress(address);
+    }
+  }, [address, isConnected]);
 
   useEffect(() => {
     const checkIfUserExistsAndSet = async () => {
@@ -74,15 +70,10 @@ export default function Home() {
 
   if (!isConnected) {
     return (
-      <main className="flex h-screen items-center justify-center bg-black">
-        <div className="bg-black p-4">
-          <div className="flex flex-col items-center justify-center h-8">
-            <p
-              className="ml-4 text-white pr-4 text-center cursor-pointer"
-              onClick={attemptConnection}
-            >
-              Connected: <span className="badge">{isConnected.toString()}</span>
-            </p>
+      <main className="flex h-screen items-center justify-center bg-gray-100">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="flex flex-col items-center justify-center space-y-4">
+           
           </div>
         </div>
       </main>
@@ -91,11 +82,9 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <main className="flex h-screen items-center justify-center bg-black">
+      <main className="flex h-screen items-center justify-center bg-gray-100">
         <div className="flex flex-col items-center">
-          <p className="text-white pr-4 text-center">
-            Connected: {isConnected.toString()}
-          </p>
+          <p className="text-gray-700">Loading...</p>
           <div className="spinner" />
         </div>
       </main>
@@ -103,34 +92,31 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen p-4">
-      <div className="space-y-8">
-        <div className="flex flex-col items-center justify-center bg-gray-900 p-4 w-full rounded-md shadow-md">
+    <div className="bg-gray-100 text-gray-800 min-h-screen p-8">
+      <div className="space-y-12">
+        <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg w-full">
           <p>
             Connected: <span className="badge">{isConnected.toString()}</span>
           </p>
         </div>
         {userExists ? (
           <>
-            <h1 className="text-4xl text-blue-500">BlueSky Staking-Rewards</h1>
-            <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 w-full">
-              <div className="bg-blue-900 p-4 rounded-md shadow-md flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-lg shadow-lg col-span-2">
                 <DisplayPanel />
               </div>
-              <div className="flex-1 space-y-4">
-                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+              <div className="space-y-6 col-span-1">
+                
+                <div className="bg-white p-6 rounded-lg shadow-lg">
                   <StakeAmount />
                 </div>
-                <hr className="border-gray-400" />
-                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                <div className="bg-white p-6 rounded-lg shadow-lg">
                   <WithdrawAmount />
                 </div>
-                <hr className="border-gray-400" />
-                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                <div className="bg-white p-6 rounded-lg shadow-lg">
                   <TokenApproval />
                 </div>
-                <hr className="border-gray-400" />
-                <div className="bg-blue-900 p-4 rounded-md shadow-md">
+                <div className="bg-white p-6 rounded-lg shadow-lg">
                   <Reward />
                 </div>
               </div>

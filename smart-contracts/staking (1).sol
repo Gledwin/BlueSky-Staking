@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.8.2 <0.9.0;
+pragma solidity ^0.8.7;
 
-import {IERC20} from "/stakingIERC20.sol";
-import {SafeMath} from "/mathSafe.sol";
+import {IERC20} from "./stakingIERC20.sol";
+import {SafeMath} from "./mathSafe.sol";
 
 
 contract Staking  {
     using SafeMath for uint256;
     IERC20 public s_stakingToken;
     IERC20 public s_rewardToken;
+
+    IERC20 cUSD = IERC20(0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1);
+
 
     uint public constant REWARD_RATE = 1e18;
     uint private totalStakedTokens;
@@ -81,6 +84,7 @@ contract Staking  {
         require(success, "Transfer of reward token failed");
     }
 }
+
 
 //reward - 0xc740b0c897b668b664e1c7de9c6559c58badb607
 //stake -  0x5053b19741dade3a67dd7b0e3c3bb9b450aaf95a

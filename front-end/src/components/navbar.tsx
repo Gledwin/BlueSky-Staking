@@ -34,9 +34,11 @@ const BlueSkyNavbar: FC<Props> = ({ children }) => {
 
   return (
     <>
+
     
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          
+        <h1 className="font-bold text-yellow-600 justify-between">BlueSky Staking-Rewards</h1>
+
            
           <Flex alignItems={"center"}>
             
@@ -72,7 +74,7 @@ const BlueSkyNavbar: FC<Props> = ({ children }) => {
             )}
           </Flex>
         </Flex>
-
+            
       
 
       {children}

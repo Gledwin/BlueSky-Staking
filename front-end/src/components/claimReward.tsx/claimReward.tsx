@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react";
 import { createWalletClient, createPublicClient, custom } from "viem";
 import { celoAlfajores } from "viem/chains";
 import { stakingContractAddress } from "@/utils/addresses/stakingContractAddress";
 import { stakingABI } from "@/utils/abis/stakingContractABI";
 import { useAccount } from "wagmi";
-import { rewardTokenAddress } from "@/utils/addresses/rewardContract";
-import { rewardTokenABI } from "@/utils/abis/rewardTokenABI";
 
 const ClaimRewards = () => {
   const [transactionStatus, setTransactionStatus] = useState("");
   const { address } = useAccount();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClaimRewards = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,18 +27,17 @@ const ClaimRewards = () => {
       // Get the user's address from the wallet client
       const [userAddress] = await privateClient.getAddresses();
 
-  
-
-      // Call the getReward function on the staking contract
+      // Call the claim function on the staking contract (ensure the correct function name)
       const claimTxHash = await privateClient.writeContract({
         account: userAddress,
         address: stakingContractAddress,
         abi: stakingABI,
-        functionName: "getReward",
+        functionName: "getReward", // Change this if the function name is different
         args: [],
       });
 
       setTransactionStatus("Claim reward transaction is pending...");
+      onOpen();
       const receipt = await publicClient.waitForTransactionReceipt({ hash: claimTxHash });
 
       if (receipt.status === "success") {
@@ -53,19 +51,33 @@ const ClaimRewards = () => {
     } catch (error) {
       console.error("Claim reward failed", error);
       setTransactionStatus("Claim reward failed, please try again");
-      setTimeout(() => {
-        window.location.reload();
-      }, 5000);
+      onOpen();
     }
   };
 
   return (
-    <div>
-      {transactionStatus && <div>{transactionStatus}</div>}
+    <Box p={4} maxW="md" mx="auto" mt={6} borderWidth={1} borderRadius="lg">
       <form onSubmit={handleClaimRewards}>
-        <Button type="submit">Claim rewards</Button>
+        <Button mt={4} type="submit" colorScheme="teal">Claim rewards</Button>
       </form>
-    </div>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Transaction Status</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>{transactionStatus}</Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   );
 };
 

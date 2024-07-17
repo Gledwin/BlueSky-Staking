@@ -174,11 +174,11 @@ export default function BecomeAUser() {
 
       {userExists ? (
         <Button
-          onClick={() => router.push("/cart")}
-          bgColor={"#EA1845"}
-          textColor={"blue"}
+          onClick={() => router.push("/")}
+          bgColor={"green"}
+          textColor={"white"}
           _hover={{
-            bgColor: "#black",
+            bgColor: "green",
             //   color: "black",
           }}
         >
@@ -189,8 +189,8 @@ export default function BecomeAUser() {
           onClick={onClickGetStarted}
           isLoading={isGettingStarted}
           loadingText="Setting Up"
-          bgColor={"black"}
-          textColor={"blue"}
+          bgColor={"green"}
+          textColor={"white"}
           _hover={{
             bgColor: "#black",
             //   color: "black",
@@ -248,10 +248,10 @@ export default function BecomeAUser() {
               isLoading={isCreatingUser}
               mr={3}
               loadingText="Creating User"
-              bgColor={"#EA1845"}
-              textColor={"blue"}
+              bgColor={"green"}
+              textColor={"white"}
               _hover={{
-                bgColor: "black",
+                bgColor: "green",
                 //   color: "black",
               }}
               
