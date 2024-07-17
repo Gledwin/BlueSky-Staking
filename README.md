@@ -18,19 +18,5 @@ Ehethreum toolings I used:
  - celo alfajores tesnet
  - CSS Tailwind, Chakra UI
 
-Programming language I used:
-
-  - Solidity
-  - Typescript
-
-The integration of these technologies creates a cohesive and efficient system that leverages blockchain technology to enhance the user experience in an engaging way to earn rewards. Everything was going smoothly until I had to create the make-order page with staking rewards. As I am new to blockchain and it was really challenging to also get in contact with a mentor. The problems began when I started implementing the placing of orders and integrating blockchain.
-
-Smart contract addresses
-
-https://alfajores.celoscan.io/address/0xc740b0c897b668b664e1c7de9c6559c58badb607
-https://alfajores.celoscan.io/address/0x5053b19741dade3a67dd7b0e3c3bb9b450aaf95a
-https://alfajores.celoscan.io/address/0x0ec77b9315b581a38cd0d6b15169ba28b11683a0
-https://alfajores.celoscan.io/address/0x27053a67e28245950cacc28331ff3f20a5c0fa06
-demo link:
 
 https://blue-sky-staking.vercel.app/
