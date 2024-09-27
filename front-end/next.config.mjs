@@ -2,7 +2,7 @@
 
 const nextConfig = {
   env :{
-      WALLETCONNECT_PROJECT_ID: "31b30e21538fadb8c54ec9f9c614e3e2"
+      WALLETCONNECT_PROJECT_ID: 
   },
   reactStrictMode: true,
   swcMinify: true,
